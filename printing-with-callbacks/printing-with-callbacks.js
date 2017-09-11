@@ -3,9 +3,6 @@ var https = require('https');
 function getHTML (options, callback) {
 
     /* Add your code here */
-  function printHTML (html) {
-    console.log(html);
-  }
 
   https.get(requestOptions, function (response) {
 
@@ -17,16 +14,20 @@ function getHTML (options, callback) {
 
     response.on('data', function (data) {
       text += data;
-      console.log(text);
     });
 
     // the callback is invoked when all of the data has been received
     // (the `end` of the stream)
     response.on('end', function() {
+      callback(text);
       console.log('Response stream complete.');
     });
 
   });
+}
+
+function printHTML (html) {
+  console.log(html);
 }
 
 var requestOptions = {
@@ -34,4 +35,4 @@ var requestOptions = {
   path: '/http-examples/step4.html'
 };
 
-getHTML(requestOptions);
+getHTML(requestOptions, printHTML);
